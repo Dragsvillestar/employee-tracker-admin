@@ -482,7 +482,7 @@ io.on("connection", async (socket) => {
                     } else {
                         // Create new document with today's date
                         await timelineDocRef.set({
-                            date: date,
+                            date: dateKey,
                             sender: displayName,
                             coordinates: [locationPoint], 
                             createdAt: ts.toISOString(),
