@@ -1,0 +1,40 @@
+doctype html
+html
+  head
+    title Payment Status
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    style.
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #f8f9fa;
+      }
+      .container {
+        text-align: center;
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+      }
+      .success {
+        color: green;
+        font-size: 20px;
+        font-weight: bold;
+      }
+      .error {
+        color: red;
+        font-size: 20px;
+        font-weight: bold;
+      }
+  body
+    .container
+      if message.includes("successful")
+        h1.success ✅ Payment Successful!
+      else
+        h1.error ❌ Payment Failed!
+      
+      p= message
+      a(href="/") Go To Login

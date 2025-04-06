@@ -1,0 +1,702 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+  }
+  
+  /* Container for sidebar + main content */
+  .app-container {
+    display: flex;
+    min-height: 100vh;
+  }
+  
+  /* Sidebar */
+  .sidebar {
+    width: 240px;
+    background-color: #ffffff;
+    border-right: 1px solid #ddd;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    flex-shrink: 0;
+  }
+  
+  .sidebar .logo {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
+  }
+  
+  .sidebar ul {
+    list-style: none;
+  }
+  
+  .sidebar li {
+    margin-bottom: 1rem;
+  }
+  
+  .sidebar a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+    display: block;
+    padding: 0.5rem 0.75rem;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+    background-color: rgb(188, 252, 252);
+    border: #333;
+  }
+  
+  .sidebar a:hover {
+    background-color: #f0f0f0;
+  }
+  
+  /* Main content */
+  .main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Top bar / Header */
+  .top-bar {
+    background-color: #ffffff;
+    border-bottom: 1px solid #ddd;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .top-bar h1 {
+    font-size: 1.5rem;
+    font-weight: normal;
+  }
+  
+  .user-profile {
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+    justify-content: space-evenly;
+    gap: 15px;
+  }
+  
+  .user-profile img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin-right: 0.5rem;
+  }
+  
+  /* Content area */
+  #content-wrapper {
+    padding: 2rem;
+  }
+  
+  .statistics-header {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+  
+  .stats-cards {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  
+  .stat-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 1rem;
+    text-align: center;
+    border-radius: 4px;
+  }
+  
+  .stat-card h2 {
+    margin-bottom: 0.5rem;
+    font-size: 1.2rem;
+    color: #333;
+  }
+  
+  .stat-card p {
+    font-size: 1rem;
+    color: #555;
+  }
+  
+  /* Recent Checklists */
+  .section-header {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  
+  table thead {
+    background-color: #f9f9f9;
+  }
+  
+  table th, table td {
+    padding: 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+  }
+  
+  table tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  .userPlan {
+    color: white;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 14px;
+    margin-right: 15px;
+}
+.icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 15px;
+    cursor: pointer;
+}
+
+.icon-container {
+  position: relative;
+  display: inline-block;
+}
+
+.badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: blue;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 2px 6px;
+  border-radius: 50%;
+}
+
+.profile-container {
+  position: relative;
+  display: inline-block;
+}
+
+.profile-dropdown {
+  display: none;
+  position: absolute;
+  top: 58px;
+  right: 0;
+  background: white;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  width: fit-content;
+  padding: 10px;
+  z-index: 10;
+}
+
+.profile-dropdown a,
+.profile-dropdown button {
+  display: block;
+  padding: 10px;
+  text-decoration: none;
+  color:lightseagreen;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+}
+
+.profile-dropdown button {
+  color: red;
+  font-weight: bold;
+}
+
+.profile-dropdown a:hover,
+.profile-dropdown button:hover {
+    background-color: #f0f0f0; /* Light gray background */
+}
+
+.profile-dropdown.show {
+  display: block;
+}
+
+#profileContainer:hover {
+  cursor: pointer;
+}
+
+.dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+/* General form styling */
+#employeeSignupForm {
+  max-width: 400px;
+  margin: 20px auto;
+  padding: 20px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+}
+
+/* Form heading */
+#employeeSignupForm h3 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+/* Label styling */
+#employeeSignupForm label {
+  display: block;
+  margin-top: 10px;
+  font-weight: bold;
+  color: #555;
+}
+
+/* Input & select fields */
+#employeeSignupForm input, 
+#employeeSignupForm select {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+  transition: border 0.3s ease-in-out;
+}
+
+#employeeSignupForm input:focus, 
+#employeeSignupForm select:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* Submit button */
+#employeeSignupForm button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 15px;
+  background: #007bff;
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out;
+}
+
+#employeeSignupForm button:hover {
+  background: #0056b3;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  #employeeSignupForm {
+      max-width: 90%;
+  }
+}
+
+.manager-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.manager-table th, .manager-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.manager-table th {
+  background-color: #f4f4f4;
+}
+
+.icon-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px; /* Reduce padding for smaller buttons */
+  font-size: 15px; /* Reduce icon size */
+  color: #333; /* Icon color */
+  transition: transform 0.2s ease-in-out;
+}
+
+.icon-button:hover {
+  transform: scale(1.1); /* Slight hover effect */
+  color: #007bff; /* Change color on hover */
+}
+
+.delete-btn {
+  color: red;
+}
+
+.delete-btn:hover {
+  color: darkred;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 8px; /* Space between buttons */
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.pageTopic {
+  font-size: 2.5rem; /* Large and bold */
+  font-weight: bold;
+  text-align: center;
+  color: #333;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  background: linear-gradient(90deg, #007bff, #00c6ff);
+  background-clip: text;
+  -webkit-background-clip: text; 
+  -webkit-text-fill-color: transparent;
+  padding: 10px 0;
+  border-bottom: 3px solid #007bff;
+  display: inline-block;
+  margin: 20px auto;
+  position: relative;
+}
+
+/* Add a cool underline effect */
+.pageTopic::after {
+  content: "";
+  display: block;
+  width: 50px;
+  height: 4px;
+  background-color: #007bff;
+  margin: 10px auto 0;
+  border-radius: 5px;
+}
+
+/* Add a glowing hover effect */
+.pageTopic:hover {
+  text-shadow: 0 0 10px rgba(0, 123, 255, 0.7);
+}
+
+.password-form {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  gap: 10px;
+}
+
+.password-form label {
+  font-weight: bold;
+}
+
+.password-form input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.password-form .btn {
+  background-color: #007bff;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.password-form .btn:hover {
+  background-color: #0056b3;
+}
+
+#planDisplay {
+  max-width: 350px;
+  margin: 20px auto;
+  padding: 15px;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  text-align: center;
+  background-color: #f9f9f9;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+#userPlan:hover {
+  cursor: pointer;
+}
+
+.plan {
+  width: fit-content;
+  padding: 20px;
+  background-color: antiquewhite;
+  border-radius: 10px;
+}
+
+.priceSpan{
+  font-size: xx-large;
+  font-weight: bold;
+}
+
+.pay-btn {
+  border: 2px solid black;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: large;
+  font-weight: 500;
+  background-color: antiquewhite;
+  margin-bottom: 10px;
+}
+
+.numberDiv {
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Adjust values as needed */
+}
+
+/* Style for the table sort buttons */
+.sort-btn {
+  background: none;
+  border: none;
+  color: #007BFF; /* Blue color */
+  font-weight: bold;
+  cursor: pointer;
+  text-align: left;
+  padding: 8px 12px;
+  transition: color 0.3s ease;
+}
+
+/* Hover effect */
+.sort-btn:hover {
+  color: #0056b3; /* Darker blue on hover */
+}
+
+/* Sort button active state for ascending/descending */
+.sort-btn.asc::after {
+  content: " ↑"; /* Add an upward arrow */
+}
+
+.sort-btn.desc::after {
+  content: " ↓"; /* Add a downward arrow */
+}
+
+/* Add some padding to the table header */
+.manager-table th {
+  padding: 10px;
+  background-color: #f8f9fa; /* Light grey background */
+  text-align: left;
+}
+
+.manager-table th button {
+  width: 100%; /* Make the button fill the entire th */
+  text-align: left; /* Align the text to the left */
+}
+
+/* Search Bar */
+#searchRecords {
+  padding: 10px;
+  font-size: 14px;
+  width: 200px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-right: 10px; /* Space between search bar and button */
+}
+
+/* Search Button */
+#searchRecords + button {
+  padding: 8px 16px;
+  font-size: 14px;
+  border: none;
+  background-color: #4CAF50;
+  color: white;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+#searchRecords + button:hover {
+  background-color: #45a049;
+}
+
+/* Date Inputs */
+#startDate, #endDate {
+  padding: 5px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-right: 10px; /* Space between date inputs */
+}
+
+/* Label Styling for Date Inputs */
+#startDate + label, #endDate + label {
+  font-weight: bold;
+  font-size: 14px;
+  margin-right: 5px;
+}
+
+/* Controls Container */
+#recentClocks .controls-container {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+/* Date Filter Container */
+#recentClocks .date-filter-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* PDF Button */
+#pdfBtn {
+  padding: 8px 16px;
+  font-size: 14px;
+  border: none;
+  background-color: #007BFF;
+  color: white;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+  margin-right: 10px; /* Space between the buttons */
+}
+
+#pdfBtn:hover {
+  background-color: #0056b3;
+}
+
+/* CSV Button */
+#csvBtn {
+  padding: 8px 16px;
+  font-size: 14px;
+  border: none;
+  background-color: #007BFF;
+  color: white;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+#csvBtn:hover {
+  background-color: #218838;
+}
+
+/* Styling for the text-muted explanation paragraph */
+.text-muted {
+  font-size: 16px;
+  color: #6c757d; /* Muted gray */
+  margin-top:0px; /* Space between controls and text */
+  text-align: center;
+  display: block;
+}
+
+
+/* Style for the dropdown selector */
+#searchTypeSelector {
+  padding: 8px;
+  font-size: 14px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+  width: 200px;
+}
+
+.notification-row {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+#notMsg {
+  width: 230px !important;
+  white-space: nowrap;
+}
+
+#notificationsDropdown {
+  min-width: 300px !important;
+}
+
+#close-btn {
+  width : 70px !important;
+  background-color: white !important;
+}
+
+.notify-container {
+  position: relative;
+  display: inline-block;
+}
+
+.notify-dropdown {
+  display: none;
+  position: absolute;
+  top: 58px;
+  right: 0;
+  background: white;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  width: fit-content;
+  padding: 10px;
+  z-index: 10;
+}
+
+
+
+.notify-dropdown a:hover,
+.notify-dropdown button:hover {
+    background-color: white; /* Light gray background */
+}
+
+.notify-dropdown.show {
+  display: block;
+}
+
+#notificationsContainer:hover {
+  cursor: pointer;
+}
+
+#dateLegend,#mapDateLegend, #mapSearchLegend {
+  font-size: 14px;
+}
+
+.dateGo {
+  border-radius: 3px;
+  background-color: #00c6ff;
+}
+
+.user-map-section {
+  margin-bottom: 30px;
+}
+
+.user-map-section h3 {
+  margin-bottom: 10px;
+}
+
+.user-map-section > div {
+  height: 300px;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+}
+
+.mapDownloadBtn{
+  background-color: #00c6ff;
+  border-radius: 3px;
+}
+
+#notificationsBar {
+  z-index: 1000;
+}
+
+#map{
+  z-index: 1;
+}

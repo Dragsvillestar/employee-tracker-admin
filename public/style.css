@@ -1,0 +1,25 @@
+.plan {
+    width: fit-content;
+    padding: 20px;
+    background-color: antiquewhite;
+    border-radius: 10px;
+}
+
+.priceSpan{
+    font-size: xx-large;
+    font-weight: bold;
+}
+
+.pay-btn {
+    border: 2px solid black;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: large;
+    font-weight: 500;
+    background-color: antiquewhite;
+    margin-bottom: 10px;
+}
+
+.numberDiv {
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Adjust values as needed */
+}
