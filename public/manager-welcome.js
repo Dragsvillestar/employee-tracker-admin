@@ -670,7 +670,7 @@ document.addEventListener("DOMContentLoaded", function () {
             console.log("🔌 Establishing new socket connection...");
 
             // Initialize a new socket connection
-            socket = io("http://localhost:3000", { auth: { token: token, targetUID: targetUID } });
+            socket = io({ auth: { token: token, targetUID: targetUID } });
 
             socket.on("connect", () => {
                 console.log("🔌 Connected to Socket.IO with token:");
