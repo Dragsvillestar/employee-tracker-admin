@@ -20,6 +20,8 @@ if (typeof firebase === "undefined") {
 const auth = firebase.auth();
 let socket;  
 
+const apiUrl = "https://employee-tracker-admin.onrender.com";
+
 function resendOtp() {
     phoneAuth(); // Resend OTP
     startResendCountdown(); // Restart countdown
@@ -151,7 +153,7 @@ function codeVerify() {
                 console.error("❌ Socket connection error:", err.message);
             });
             if (role === "manager") {
-                window.location.href = "/manager/home";
+                window.location.href = `${apiUrl}/manager/home`;
                 sessionStorage.setItem("userCreds", JSON.stringify({
                     uid: userId,
                     phone: phoneNumber,
