@@ -469,7 +469,7 @@ io.on("connection", async (socket) => {
                         .collection("locations")
                         .doc("timelines-doc")
                         .collection("timelines")
-                        .doc(`dateKey-${displayName}`); // Use date as document ID
+                        .doc(`${dateKey}-${displayName}`); // Use date as document ID
         
                     const timelineDoc = await timelineDocRef.get();
         
