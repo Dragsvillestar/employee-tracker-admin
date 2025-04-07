@@ -26,11 +26,10 @@ if (typeof firebase === "undefined") {
     console.log("✅ Firebase is loaded correctly.");
 }
 // Monitor auth state changes
-const apiUrl = "https://employee-tracker-admin.onrender.com";
 
 function fetchAndDisplayProfile() {
     // Make the POST request to fetch user profile data
-    fetch(`${apiUrl}/manager/profile`, {
+    fetch("/manager/profile", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -96,15 +95,13 @@ async function logout() {
         window.sessionStorage.clear(); // Clears all data in session storage.
 
         // Redirect to login page
-        window.location.href = `${apiUrl}/manager`; 
+        window.location.href = "/manager"; 
     } catch (error) {
         console.error("❌ Logout error:", error);
     }
 }
 
 let initialLocation = { latitude: null, longitude: null };
-
-let marker = null; 
 
 function initMapAndFetchLocation() {
     if (!navigator.geolocation) {
@@ -113,33 +110,28 @@ function initMapAndFetchLocation() {
     }
 
     // ✅ Initialize Leaflet map
-    const map = L.map("map", { attributionControl: false }).setView([0, 0], 2);
+    const map = L.map("map", { attributionControl: false }).setView([0, 0], 2); // Default world view
 
     // ✅ Load OpenStreetMap tiles
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         attribution: "",
     }).addTo(map); // No attribution text
 
-    // ✅ Watch for location changes
-    navigator.geolocation.watchPosition(
+    // ✅ Get user's location
+    navigator.geolocation.getCurrentPosition(
         async (position) => {
             const { latitude, longitude } = position.coords;
             initialLocation = { latitude, longitude };
-
             // Update map to user's location
             map.setView([latitude, longitude], 13);
 
-            // Check if the marker exists
-            if (!marker) {
-                // Create a new marker if it doesn't exist
-                marker = L.marker([latitude, longitude]).addTo(map);
-                marker.bindPopup("📍 Fetching address...").openPopup();
-            } else {
-                // Update the marker's position if it exists
-                marker.setLatLng([latitude, longitude]);
-                marker.setPopupContent("📍 Fetching address...").openPopup();
-            }
+            // Add marker at user's location
+            const marker = L.marker([latitude, longitude])
+                .addTo(map)
+                .bindPopup("📍 Fetching address...")
+                .openPopup();
 
+            // ✅ Convert Lat/Lng to Address using OpenStreetMap API
             try {
                 const response = await fetch(
                     `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`
@@ -150,20 +142,17 @@ function initMapAndFetchLocation() {
                 if (!data.display_name) {
                     console.warn("⚠️ No address found in response!");
                 }
-                const address = data.display_name || "Address not found";
+                address = data.display_name || "Address not found";
 
-                // Update the marker's popup content with the address
+                // Update popup & location details
                 marker.setPopupContent(`📍 ${address}`);
-                marker.openPopup(); // Ensure popup is visible
                 const locationDetails = document.getElementById("locationInfo");
                 if (locationDetails) {
                     locationDetails.textContent = `🏠 ${address}`;
                 }
-
                 console.log("✅ User Address:", address);
                 userAddress = address;
                 startContinuousLocationTransmission();
-
                 const userLocation = {
                     lat: latitude,
                     lon: longitude,
@@ -180,10 +169,10 @@ function initMapAndFetchLocation() {
             console.error("❌ Geolocation error:", error.message);
             document.getElementById("locationDetails").textContent =
                 "⚠️ Location access denied.";
-        },
-        { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+        }
     );
 }
+
 
 let locationUpdateInterval;
 
@@ -195,9 +184,6 @@ function startContinuousLocationTransmission() {
     if (initialLocation.latitude === null || initialLocation.longitude === null) {
         console.error("❌ Location is not yet available. Please wait for location fetch.");
         
-        // Call the function again after a delay to keep checking
-        setTimeout(checkLocationAndStartTransmission, 1000); // Check every 1 second
-        return;
     }
 
     // Once location is available, start transmission
@@ -291,7 +277,7 @@ function createWorkerSignupForm() {
 
         // Send data to backend API
         try {
-            const response = await fetch(`${apiUrl}/manager/register`, {
+            const response = await fetch("/manager/register", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -339,7 +325,7 @@ async function updateClockButton() {
     }
 
     try {
-        const response = await fetch(`${apiUrl}/records/get-last-clock-event`, {
+        const response = await fetch("/records/get-last-clock-event", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -400,7 +386,7 @@ async function clockIn() {
     }
 
     const comments = document.getElementById("clock-comment").value || "";
-    const response = await fetch(`${apiUrl}/records/clock-in`, {
+    const response = await fetch("/records/clock-in", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ userPath: user.userPath, address: address, fullName:user.displayName, comments: comments }),
@@ -461,7 +447,7 @@ async function fetchWorkerProfile(userId) {
     const workerPath = `${user.userPath}/workers/${userId}`; // Corrected path construction
 
     try {
-        const response = await fetch(`${apiUrl}/manager/subordinates/profile`, {
+        const response = await fetch("/manager/subordinates/profile", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ userPath: workerPath }), // Corrected request body
@@ -523,7 +509,7 @@ function formatTimestamp(timestamp) {
 
 async function fetchLastClocking() {
     try {
-        const response = await fetch(`${apiUrl}/records/get-last-clocking`, {
+        const response = await fetch("/records/get-last-clocking", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ userPath: user.userPath }),
@@ -556,7 +542,7 @@ async function fetchLastClocking() {
 function fetchWorkersData() {
     const userPath = user.userPath;
 
-    fetch(`${apiUrl}/manager/subordinates`, {
+    fetch("/manager/subordinates", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -638,7 +624,7 @@ function deleteWorkerProfile(userId) {
     }
 
     // Proceed with deleting the user if confirmed
-    fetch(`${apiUrl}/manager/subordinates/delete`, {
+    fetch("/manager/subordinates/delete", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -673,7 +659,7 @@ document.addEventListener("DOMContentLoaded", function () {
     
     } else {
     console.log("❌ No user found in sessionStorage. Redirecting to login.");
-    window.location.href = `${apiUrl}/manager`; 
+    window.location.href = "/manager"; 
 }
 
     const token = sessionStorage.getItem("token");
@@ -684,7 +670,7 @@ document.addEventListener("DOMContentLoaded", function () {
             console.log("🔌 Establishing new socket connection...");
 
             // Initialize a new socket connection
-            socket = io({ auth: { token: token, targetUID: targetUID } });
+            socket = io("http://localhost:3000", { auth: { token: token, targetUID: targetUID } });
 
             socket.on("connect", () => {
                 console.log("🔌 Connected to Socket.IO with token:");
