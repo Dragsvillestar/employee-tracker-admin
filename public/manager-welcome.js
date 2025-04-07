@@ -104,6 +104,8 @@ async function logout() {
 
 let initialLocation = { latitude: null, longitude: null };
 
+let marker = null; 
+
 function initMapAndFetchLocation() {
     if (!navigator.geolocation) {
         console.error("❌ Geolocation is not supported by your browser.");
@@ -123,13 +125,17 @@ function initMapAndFetchLocation() {
         async (position) => {
             const { latitude, longitude } = position.coords;
             initialLocation = { latitude, longitude };
+
             // Update map to user's location
             map.setView([latitude, longitude], 13);
 
+            // Check if the marker exists
             if (!marker) {
+                // Create a new marker if it doesn't exist
                 marker = L.marker([latitude, longitude]).addTo(map);
                 marker.bindPopup("📍 Fetching address...").openPopup();
             } else {
+                // Update the marker's position if it exists
                 marker.setLatLng([latitude, longitude]);
                 marker.setPopupContent("📍 Fetching address...").openPopup();
             }
@@ -146,12 +152,14 @@ function initMapAndFetchLocation() {
                 }
                 const address = data.display_name || "Address not found";
 
-                // Update popup & location details
+                // Update the marker's popup content with the address
                 marker.setPopupContent(`📍 ${address}`);
+                marker.openPopup(); // Ensure popup is visible
                 const locationDetails = document.getElementById("locationInfo");
                 if (locationDetails) {
                     locationDetails.textContent = `🏠 ${address}`;
                 }
+
                 console.log("✅ User Address:", address);
                 userAddress = address;
                 startContinuousLocationTransmission();
