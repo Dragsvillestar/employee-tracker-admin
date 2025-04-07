@@ -20,8 +20,6 @@ if (typeof firebase === "undefined") {
 const auth = firebase.auth();
 let socket;  
 
-const apiUrl = "https://employee-tracker-admin.onrender.com";
-
 function resendOtp() {
     phoneAuth(); // Resend OTP
     startResendCountdown(); // Restart countdown
@@ -136,10 +134,13 @@ function codeVerify() {
             console.log("📱 Phone Number:", phoneNumber);
 
             // 🔥 Fetch Custom Claims (Role & Path)
-            const idTokenResult = await user.getIdTokenResult();
+            const idTokenResult = await user.getIdTokenResult();  // ✅ Await token retrieval
             const role = idTokenResult.claims.role || "user";  // Default to 'user' if no role
             const userPath = idTokenResult.claims.userPath || "/default-path";
+            const registrarID = idTokenResult.claims.registrar || "/default-path";
+            const adminUid  = idTokenResult.claims.adminUid;
 
+            sessionStorage.setItem("token", idTokenResult.token); 
             console.log(`🔹 Role: ${role}, User Path: ${userPath}`);
 
             socket = io({ auth: { token: idTokenResult.token } });
@@ -152,19 +153,36 @@ function codeVerify() {
             socket.on("connect_error", (err) => {
                 console.error("❌ Socket connection error:", err.message);
             });
-            if (role === "manager") {
-                window.location.href = `${apiUrl}/manager/home`;
-                sessionStorage.setItem("userCreds", JSON.stringify({
-                    uid: userId,
-                    phone: phoneNumber,
-                    displayName: displayName,
-                    role: role,
-                    userPath: userPath
-                }));
-                document.getElementById("error-message").textContent = "Login successful!";
-            } else {
-                document.getElementById("error-message").textContent = "You are not a manager";
-            }
+
+            if (!role) {
+                alert("Access Denied: No role assigned.");
+                await firebase.auth().signOut();
+                return;
+            };
+    
+            // ✅ Step 3: Allow or deny login based on role
+            if (role !== "manager") {
+                alert("Access Denied: You are not a manager.");
+                await firebase.auth().signOut();
+                return;
+            };
+            
+            sessionStorage.setItem("userCreds", JSON.stringify({
+                uid: user.uid,
+                email: user.email,
+                phone: user.phoneNumber,
+                displayName: user.displayName,
+                role: role,
+                userPath: userPath,
+                registrarID: registrarID,
+                adminUid: adminUid
+            }));
+
+            document.getElementById("message").textContent = "✅ Sign-in successful!";
+
+            setTimeout(() => {
+                window.location.href = `/manager/home?username=${encodeURIComponent(user.displayName)}`;
+            }, 1000);
         })
         .catch((error) => {
             console.error("❌ OTP Not Correct:", error);
@@ -230,4 +248,3 @@ function signIn() {
             document.getElementById("message").textContent = "⚠️ " + error.message;
         });
 }
-
