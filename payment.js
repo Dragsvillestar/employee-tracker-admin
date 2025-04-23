@@ -47,7 +47,7 @@ router.post("/initiate-payment", async (req, res) => {
             tx_ref,
             amount,
             currency: "NGN",
-            redirect_url: "http://localhost:3000/payment/payment-success",
+            redirect_url: "https://employee-tracker-admin.onrender.com/payment/payment-success",
             payment_options: "card, banktransfer",
             customer: { email, name: `${firstName} ${lastName}`, phone_number: phoneNumber },
             customizations: { title: `Subscription Payment - ${plan}`, description: `Payment for ${plan} plan` }
@@ -95,7 +95,7 @@ router.post("/upgrade-payment", async (req, res) => {
             tx_ref,
             amount,
             currency: "NGN",
-            redirect_url: "http://localhost:3000/payment/payment-success",
+            redirect_url: "https://employee-tracker-admin.onrender.com/payment/payment-success",
             payment_options: "card, banktransfer",
             customer: { email, name: userData.firstName + " " + userData.lastName },
             customizations: { title: `Plan Upgrade - ${plan}`, description: `Upgrading to ${plan} plan` }
